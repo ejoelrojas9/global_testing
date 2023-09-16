@@ -30,10 +30,20 @@
           <th>Id</th>
           <th>Name</th>
           <th>Email</th>
+          <th>Proffesion</th>
           <th>Details</th>
         </tr>
       </thead>
       <tbody>
+        <% @candidates.each do |c| %>
+          <tr class="p-3">
+            <td><%= c.id %></td>
+            <td><%= c.name %></td>
+            <td><%= c.email %></td>
+            <td><%= c.proffesion %></td>
+            <td><%= link_to "Details", candidate_path(c.id), class: 'btn btn-alt btn-info' %></td>
+          </tr>
+        <% end %>
       </tbody>
     </table>
   </div>
@@ -48,6 +58,39 @@
       </div>
       <div class="modal-body">
         <legend> <i class="bi bi-person-plus-fill"></i> New Candidate</legend>
+          <%= form_for :candidate, model: @candidate do |f| -%>
+          <table class="table table-responsive">
+            <tr class="mb-3">
+              <td><%= f.label :name -%> *</td>
+              <td><%= f.text_field :name, required: true, class: 'form-control' -%></td>
+            </tr>
+            <tr class="mb-3">
+              <td><%= f.label :email -%> *</td>
+              <td><%= f.text_field :email, required: true, class: 'form-control' -%></td>
+            </tr>
+            <tr class="mb-3">
+              <td><%= f.label :gender -%> *</td>
+              <td><%= f.select :gender, options_for_select( ['Male','Female','Other'] ), { include_blank: 'Select a from the list' }, { class: 'form-control', required: true } -%></td>
+            </tr>
+            <tr class="mb-3"><tr class="mb-3">
+              <td><%= f.label :age -%> *</td>
+              <td><%= f.select :age, options_for_select((1..65)), {}, { required: true, class: 'form-control' } -%></td>
+            </tr>
+              <td><%= f.label :phone -%> *</td>
+              <td><%= f.text_field :phone, required: true, class: 'form-control' -%></td>
+            </tr>
+            <tr class="mb-3">
+              <td><%= f.label :proffesion -%> *</td>
+              <td><%= f.text_field :proffesion, required: true, class: 'form-control' -%></td>
+            </tr>
+          </table>
+          <div class="modal-footer p-3">
+            <div class="container text-end">
+              <button data-bs-dismiss="modal" class="btn btn-outline-danger">Close</button>
+              <button type="submit" class="btn btn-outline-primary">Save changes</button>
+            </div>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>

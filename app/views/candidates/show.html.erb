@@ -1,0 +1,102 @@
+
+<div class="container bg-light">
+  <div class="content-header mt-5 p-5">
+    <div class="alert-alert"><%= render '/shared/flash' %></div>
+    <% if current_admin.present? %>
+      <%= link_to "Home", root_path %>
+      <a href="<%= candidates_path -%>" class="p-3" onclick=><i class="fa fa-ban fa-fw pull-right"></i>Candidates List</a>
+      <a href="<%= destroy_admin_session_path -%>" class="p-3"><i class="fa fa-ban fa-fw pull-right"></i>Logout</a>
+    <% end %>
+    <div class="container mt-3 p-3">
+    <a type="button" data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-outline-success p-2"></i>Settings</a>
+    </div>
+    <div class="header-section mx-3">
+      <h3>Access de information of the candidate: <%= @candidate.name %></h3>
+    </div>
+  </div>
+  <div class="block full block-alt-noborder mx-5">
+    <div class="tab-content">
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-11">
+          <table class="table form.control">
+            <tr>
+              <td class="p-3"><b>Id:</b></td>
+              <td class="p-3"><%= @candidate.id %></td>
+              <td class="p-3"><b>Name:</b></td>
+              <td class="p-3"><%= @candidate.name %></td>
+            </tr>
+            <tr>
+              <td class="p-3"><b>Email:</b></td>
+              <td class="p-3"><%= @candidate.email %></td>
+              <td class="p-3"><b>Phone:</b></td>
+              <td class="p-3"><%= @candidate.phone %></td>
+            </tr>
+            <tr>
+              <td class="p-3"><b>Gender:</b></td>
+              <td class="p-3"><%= @candidate.gender %></td>
+              <td class="p-3"><b>Age:</b></td>
+              <td class="p-3"><%= @candidate.age %></td>
+            </tr>
+            <tr>
+              <td class="p-3"><b>Proffesion:</b></td>
+              <td class="p-3"><%= @candidate.proffesion %></td>
+              <td class="p-3"><b></b></td>
+              <td><%= link_to "Delete", candidate_path(@candidate), class: 'btn btn-outline-danger', data: { 
+                  turbo_method: :delete,
+                  turbo_confirm: 'Are you sure to DELETE this candidate?'
+                  } %></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Candidate Form</h2>
+        <button data-bs-dismiss="modal" class="btn-close"></button>
+      </div>
+      <div class="modal-body form-control">
+        <legend> <i class="bi bi-person-plus-fill"></i> Edit <%= @candidate.name %></legend>
+        <%= form_with model: @candidate do |f| %>
+          <table class="table table-responsive">
+            <tr class="mb-3">
+              <td><%= f.label :name -%> *</td>
+              <td><%= f.text_field :name, required: true, class: 'form-control' -%></td>
+            </tr>
+            <tr class="mb-3">
+              <td><%= f.label :email -%> *</td>
+              <td><%= f.text_field :email, required: true, class: 'form-control' -%></td>
+            </tr>
+            <tr class="mb-3">
+              <td><%= f.label :gender -%> *</td>
+              <td><%= f.select :gender, options_for_select( ['Male','Female','Other'], @candidate.gender ), { include_blank: 'Select a from the list' }, { class: 'form-control', required: true } -%></td>
+            </tr>
+            <tr class="mb-3"><tr class="mb-3">
+              <td><%= f.label :age -%> *</td>
+              <td><%= f.select :age, options_for_select((1..65), @candidate.age), {}, { required: true, class: 'form-control' } -%></td>
+            </tr>
+              <td><%= f.label :phone -%> *</td>
+              <td><%= f.text_field :phone, required: true, class: 'form-control' -%></td>
+            </tr>
+            <tr class="mb-3">
+              <td><%= f.label :proffesion -%> *</td>
+              <td><%= f.text_field :proffesion, required: true, class: 'form-control' -%></td>
+            </tr>
+          </table>
+          <div class="modal-footer p-3">
+            <div class="container text-end">
+              <button data-bs-dismiss="modal" class="btn btn-outline-danger">Close</button>
+              <button type="submit" class="btn btn-outline-primary">Save changes</button>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
